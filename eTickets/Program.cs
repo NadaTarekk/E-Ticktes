@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(optionBuilder => {
-    optionBuilder.UseSqlServer("Server=DESKTOP-89QH28P\\SQLEXPRESS;Database=ETickts;Trusted_Connection=True;");
+    optionBuilder.UseSqlServer();
 });
 
 var app = builder.Build();
