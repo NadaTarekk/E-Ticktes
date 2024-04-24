@@ -5,11 +5,11 @@ namespace eTickets.Data
 {
     public class AppDbContext : DbContext
     {
-        DbSet<Actor> Actors { get; set; }
-        DbSet<Movie> Movies { get; set; }
-        DbSet<Cinema> Cinemas { get; set; }
-        DbSet<Producer> Producers { get; set; }
-        DbSet<Actor_Movie> Actors_Movies { get; set; }
+       public DbSet<Actor> Actors { get; set; }
+       public DbSet<Movie> Movies { get; set; }
+       public DbSet<Cinema> Cinemas { get; set; }
+       public DbSet<Producer> Producers { get; set; }
+       public DbSet<Actor_Movie> Actors_Movies { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options):base(options)
         {

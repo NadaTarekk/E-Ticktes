@@ -1,6 +1,9 @@
-﻿namespace eTickets.Models
+﻿using eTickets.Repository;
+
+namespace eTickets.Models
 {
-    public class Producer { 
+    public class Producer : IEntityBase
+    { 
         public int Id { get; set; } 
         public string ProfilePictureURL { get; set; }
         public string FullName { get; set; }

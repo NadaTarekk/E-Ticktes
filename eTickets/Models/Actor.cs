@@ -1,6 +1,8 @@
-﻿namespace eTickets.Models
+﻿using eTickets.Repository;
+
+namespace eTickets.Models
 {
-    public class Actor
+    public class Actor : IEntityBase
     {
         public int Id { get; set; } 
         public string ProfilePictureURL { get; set; }

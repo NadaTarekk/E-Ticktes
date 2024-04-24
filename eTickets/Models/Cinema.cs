@@ -1,6 +1,8 @@
-﻿namespace eTickets.Models
+﻿using eTickets.Repository;
+
+namespace eTickets.Models
 {
-    public class Cinema
+    public class Cinema : IEntityBase
     {
         public int Id { get; set; } 
         public string Logo { get; set; }
