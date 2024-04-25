@@ -1,6 +1,7 @@
 ﻿using eTickets.Models;
 using eTickets.Repository;
 using eTickets.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace eTickets.Services
 {
@@ -9,6 +10,8 @@ namespace eTickets.Services
        Task<Movie> GetMovieByIdAsync(int id);
        Task AddNewMovieAsync(NewMovieVM data);
        Task UpdateMovieAsync(NewMovieVM data);
+       Task<IEnumerable<Movie>> GetMoviesAsync();
+       Task<NewMovieDropdownsVM> GetNewMovieDropdownsValues();
 
     }
 }

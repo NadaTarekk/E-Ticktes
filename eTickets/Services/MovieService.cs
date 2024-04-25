@@ -55,10 +55,57 @@ namespace eTickets.Services
 
             return movie;
         }
-
-        public Task UpdateMovieAsync(NewMovieVM data)
+        public async Task<IEnumerable<Movie>> GetMoviesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Movies.Include(m => m.Cinema).ToListAsync();
+        }
+
+        public async Task<NewMovieDropdownsVM> GetNewMovieDropdownsValues()
+        {
+            var response = new NewMovieDropdownsVM()
+            {
+                Actors = await _context.Actors.OrderBy(n => n.FullName).ToListAsync(),
+                Cinemas = await _context.Cinemas.OrderBy(n => n.Name).ToListAsync(),
+                Producers = await _context.Producers.OrderBy(n => n.FullName).ToListAsync()
+            };
+
+            return response;
+        }
+
+        public async Task UpdateMovieAsync(NewMovieVM data)
+        {
+            var dbMovie = await _context.Movies.FirstOrDefaultAsync(n => n.Id == data.Id);
+
+            if (dbMovie != null)
+            {
+                dbMovie.Name = data.Name;
+                dbMovie.Description = data.Description;
+                dbMovie.Price = data.Price;
+                dbMovie.ImageUrl = data.ImageURL;
+                dbMovie.CinemaId = data.CinemaId;
+                dbMovie.StartDate = data.StartDate;
+                dbMovie.EndDate = data.EndDate;
+                dbMovie.ProducerId = data.ProducerId;
+                await _context.SaveChangesAsync();
+            }
+
+            //Remove existing actors
+            var existingActorsDb = _context.Actors_Movies.Where(n => n.MovieId == data.Id).ToList();
+            _context.Actors_Movies.RemoveRange(existingActorsDb);
+            await _context.SaveChangesAsync();
+
+            //Add Movie Actors
+            foreach (var actorId in data.ActorIds)
+            {
+                var newActorMovie = new Actor_Movie()
+                {
+                    MovieId = data.Id,
+                    ActorId = actorId
+                };
+                await _context.Actors_Movies.AddAsync(newActorMovie);
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }
+
