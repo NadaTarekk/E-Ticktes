@@ -1,6 +1,9 @@
-﻿namespace eTickets.Services
+﻿using eTickets.Models;
+using eTickets.Repository;
+
+namespace eTickets.Services
 {
-    public class IProducerService
+    public interface IProducerService : IEntityBaseRepository<Producer>
     {
     }
 }
