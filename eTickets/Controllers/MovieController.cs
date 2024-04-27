@@ -67,23 +67,38 @@ namespace eTickets.Controllers
             await _movieService.UpdateMovieAsync(movie);
             return RedirectToAction(nameof(Index));
         }
-        [HttpPost]
-        public IActionResult Create()
-        {
-
-            return View();
-        }
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Create()
         {
+            var movieDropdownsData = await _movieService.GetNewMovieDropdownsValues();
 
+            ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
+            ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
+            ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
+            
             return View();
         }
-
-        public IActionResult Details()
+        [HttpPost]
+        public async Task<IActionResult> Create(NewMovieVM movie)
         {
+            if (!ModelState.IsValid)
+            {
+                var movieDropdownsData = await _movieService.GetNewMovieDropdownsValues();
+                ViewBag.Cinemas = new SelectList(movieDropdownsData.Cinemas, "Id", "Name");
+                ViewBag.Producers = new SelectList(movieDropdownsData.Producers, "Id", "FullName");
+                ViewBag.Actors = new SelectList(movieDropdownsData.Actors, "Id", "FullName");
 
-            return View();
+                return View(movie);
+
+            }
+            await _movieService.AddNewMovieAsync(movie);
+            return RedirectToAction(nameof(Index));    
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var movie = await _movieService.GetMovieByIdAsync(id);
+            return View(movie);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace eTickets.Repository
         }
 
 
-        public async Task UpdateAsync(int id, T newEntity)
+        public async Task UpdateAsync(T newEntity)
         {
             EntityEntry entityEntry = _context.Entry<T>(newEntity);
             entityEntry.State = EntityState.Modified;
